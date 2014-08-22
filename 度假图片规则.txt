@@ -1,0 +1,8 @@
+http://upload.17u.com/uploadfile/2005/10/25/2/2005102511301944491.jpg
+==>http://pic1.40017.cn/line/2005/10/25/2/2005102511301944491_160x120_00.jpg
+
+http://img.17u.com/com/upload/original/2005/10/25/2/2005102511301944491.jpg
+==>http://pic1.40017.cn/imgComUpload/original/2005/10/25/2/2005102511301944491_160x120_00.jpg
+
+http://img.17u.cn/ly/cn/img/admin/ziyouxing/2005/10/25/2/2005102511301944491.jpg
+==>http://pic1.40017.cn/selftrip/2005/10/25/2/2005102511301944491_160x120_00.jpg

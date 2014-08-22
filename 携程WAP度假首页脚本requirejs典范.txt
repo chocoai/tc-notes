@@ -1,0 +1,156 @@
+﻿define(["libs", "c", "VacationModelv", "VacationStorev", buildViewTemplatesPath("vacationsdtl.html")], function(a, b, c, d, e) {
+	var f = c.DetailModel.getInstance(),
+		g = d.ProductListParamStore.getInstance(),
+		h = d.ProductCommentsParamStore.getInstance(),
+		i = c.VisaModel.getInstance(),
+		j = b.view.extend({
+			pageid: "214046",
+			tpl: e,
+			hasAd: !0,
+			adContainer: "in_footer_dtl",
+			data: null,
+			hasStartPrice: !1,
+			hasImages: !1,
+			isBookinginformationHide: !1,
+			title: null,
+			productListStore: d.ProductListStore.getInstance(),
+			render: function() {
+				this.htmlfun = _.template(this.tpl)
+			},
+			events: {
+				"click #js_return": "goBack",
+				"click #js_home": "goHome",
+				"click #c-vacation-comments": "goTo",
+				"click #c-vacation-touritinerary": "goToIntroduction",
+				"click #c-vacation-feedescription": "goToIntroduction",
+				"click #c-vacation-bookinginformation": "goToIntroduction",
+				"click #c-vacation-visa": "goTo",
+				"click #c-vacation-startingprice": "showCalendarAction",
+				"click #c-vacation-imgshow": "showImageAction"
+			},
+			goToIntroduction: function(a) {
+				this.forward("vacationsintroductions!" + $(a.currentTarget).data("hash"))
+			},
+			goTo: function(a) {
+				this.forward($(a.currentTarget).data("hash"))
+			},
+			goHome: function() {
+				this.showLoading(), window.location.href = "/html5"
+			},
+			showCalendarAction: function() {
+				this.hasStartPrice && this.forward("#vacationsstartingprice")
+			},
+			showImageAction: function() {
+				this.hasImages && this.forward("#vacationsimgshow")
+			},
+			onCreate: function() {
+				this.render()
+			},
+			resetVisible: function(a) {
+				if (a.contentItems && a.contentItems.length) {
+					var b = !1;
+					for (var c in a.contentItems) switch (a.contentItems[c].type) {
+					case 1:
+						a.contentItems[c].html || this.els.eltouritinerary.css("display", "none");
+						break;
+					case 2:
+						a.contentItems[c].rmk || (b = !0);
+						break;
+					case 3:
+						-1 == a.contentItems[c].rmk.indexOf("???") ? this.hasStartPrice = !0 : (this.$el.find("#js_startingprice").css("display", "block"), this.hasStartPrice = !1);
+						break;
+					case 4:
+						if (a.contentItems[c].html) {
+							var d = $(a.contentItems[c].html),
+								e = !1;
+							d.find(".itemTitle").each(function() {
+								return "??ð???" == $.trim($(this).html()) ? void(e = !0) : void 0
+							}), e || this.els.elfeedescription.css("display", "none")
+						} else this.els.elfeedescription.css("display", "none");
+						break;
+					case 5:
+						a.contentItems[c].html || (this.els.elbookinginformation.css("display", "none"), this.isBookinginformationHide && this.els.elvisaparent.css("display", "none"));
+						break;
+					case 7:
+						if (a.contentItems[c].rmk) {
+							var f = /\d+(\.\d+)?/g,
+								g = a.contentItems[c].rmk,
+								h = g.match(f);
+							h && h.length > 1 && 0 == h[1] && this.els.elcomments.css("display", "none")
+						} else this.els.elcomments.css("display", "none");
+						break;
+					case 16:
+						!a.contentItems[c].html && b && this.els.elintroduction.css("display", "none")
+					}
+				}
+			},
+			target: function(a) {
+				var b = this;
+				i.setParam("pid", f.getParam().pid), i.excute(function(c) {
+					b.$el.html(b.htmlfun({
+						data: a
+					})), b.els = {
+						eltouritinerary: b.$el.find("#c-vacation-touritinerary").parent("ul"),
+						elfeedescription: b.$el.find("#c-vacation-feedescription"),
+						elbookinginformation: b.$el.find("#c-vacation-bookinginformation"),
+						elvisa: b.$el.find("#c-vacation-visa"),
+						elintroduction: b.$el.find("#c-vacation-introduction"),
+						elcomments: b.$el.find("#c-vacation-comments").parent("ul"),
+						elvisaparent: b.$el.find("#c-vacation-visa").parent("ul")
+					}, b.hasImages = a.cImgs > 0 && a.imgUrls ? !0 : !1, h.setAttr("pid", a.pid), b.hideLoading();
+					var d = !1,
+						e = !1,
+						f = !1;
+					if (a.contentItems && a.contentItems.length) for (var g = 0, i = a.contentItems.length; i > g; g++) switch (a.contentItems[g].type) {
+					case 6:
+						a.contentItems[g].html || (d = !0);
+						break;
+					case 11:
+						a.contentItems[g].html || (e = !0)
+					}
+					if (c && c.countries && c.countries.length > 0) {
+						for (var j = c.countries, k = !1, g = 0, i = j.length; i > g; g++) if (j[g].professions) {
+							k = !0;
+							break
+						}
+						k || (f = !0)
+					} else f = !0;
+					d && e && f && (b.els.elvisa.css("display", "none"), b.isBookinginformationHide = !0), b.turning()
+				}, function() {})
+			},
+			onLoad: function() {
+				var a = this;
+				if (g && g.get().pagetype) switch (g.get().pagetype) {
+				case d.ENUM_PAGETYPE_GROUP:
+					this.title = "????, this.pageid = 214346;
+					break;
+				case d.ENUM_PAEGTYPE_CIRCUM:
+					this.title = "????????, this.pageid = 214046;
+					break;
+				case d.ENUM_PAGETYPE_CRUISESHIP:
+					this.title = "??", this.pageid = 214354
+				}
+				var b = function(b) {
+						b.pid ? (a.data = b, a.target(b)) : a.showHeadWarning(a.title, "??Ǹ??????????", function() {
+							a.hideLoading(), a.goBack(), this.hide()
+						})
+					},
+					c = function() {
+						a.showHeadWarning(a.title, "??Ŷ,??ݼ?س???ˣ???????", function() {
+							a.hideLoading(), a.goBack(), this.hide()
+						})
+					};
+				this.showLoading(), f.excute(b, c)
+			},
+			onShow: function() {
+				this.$el.find("#js_title").text(this.title), this.resetVisible(this.data)
+			},
+			onHide: function() {
+				this.hideHeadWarning()
+			},
+			goBack: function() {
+				this.back(this.productListStore.get() || 0 !== window.localStorage.length ? "vacationslist" : "circum")
+			}
+		});
+	return j
+});

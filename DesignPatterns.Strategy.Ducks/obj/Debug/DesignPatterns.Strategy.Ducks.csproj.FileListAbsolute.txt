@@ -1,0 +1,5 @@
+d:\我的配置\桌面\DesignPatterns.Strategy.Ducks\bin\Debug\Justin.Ducks.exe
+d:\我的配置\桌面\DesignPatterns.Strategy.Ducks\bin\Debug\Justin.Ducks.pdb
+d:\我的配置\桌面\DesignPatterns.Strategy.Ducks\obj\Debug\ResolveAssemblyReference.cache
+d:\我的配置\桌面\DesignPatterns.Strategy.Ducks\obj\Debug\Justin.Ducks.exe
+d:\我的配置\桌面\DesignPatterns.Strategy.Ducks\obj\Debug\Justin.Ducks.pdb
